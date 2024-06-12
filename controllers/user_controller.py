@@ -26,5 +26,18 @@ def create_user_profile():
         return jsonify(ex.message), 502
 
 
+@app.route("/change-password", methods=["PUT"])
+def change_password():
+    try:
+        user_input = request.get_json()
+        data = user_service.change_password(user_input["Username"],
+                                            user_input["CurrentPassword"],
+                                            user_input["NewPassword"])
+
+        return jsonify(data), 201
+    except UserExceptions as ex:
+        return jsonify(ex.message), 502
+
+
 if __name__ == "__main__":
     app.run(debug=True)
